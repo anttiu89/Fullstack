@@ -65,14 +65,16 @@ const Statistics = (props) => {
   }
 
   return (
-    <div>
-      <StatisticLine text="good" value ={props.scoreObject} />
-      <StatisticLine text="neutral" value ={props.scoreObject} />
-      <StatisticLine text="bad" value ={props.scoreObject} />
-      <StatisticLine text="all" value ={props.scoreObject} />
-      <StatisticLine text="average" value ={props.scoreObject} />
-      <StatisticLine text="positive" value ={props.scoreObject} />
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value ={props.scoreObject} />
+        <StatisticLine text="neutral" value ={props.scoreObject} />
+        <StatisticLine text="bad" value ={props.scoreObject} />
+        <StatisticLine text="all" value ={props.scoreObject} />
+        <StatisticLine text="average" value ={props.scoreObject} />
+        <StatisticLine text="positive" value ={props.scoreObject} />
+      </tbody>
+    </table>
   )
 }
 
@@ -81,49 +83,55 @@ const StatisticLine = (props) => {
   
   if (props.text === "good") {
     return (
-      <div>
-        {props.text} {props.value.good}
-      </div>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value.good}</td>
+      </tr>
     )
   }
 
   if (props.text === "neutral") {
     return (
-      <div>
-        {props.text} {props.value.neutral}
-      </div>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value.neutral}</td>
+      </tr>
     )
   }
 
   if (props.text === "bad") {
     return (
-      <div>
-        {props.text} {props.value.bad}
-      </div>
+      <tr>
+        <td>{props.text}</td> 
+        <td>{props.value.bad}</td>
+      </tr>
     )
   }
 
   if (props.text === "all") {
     return (
-      <div>
-        {props.text} {all(props.value)}
-      </div>
+      <tr>
+        <td>{props.text}</td> 
+        <td>{all(props.value)}</td>
+      </tr>
     )
   }
 
   if (props.text === "average") {
     return (
-      <div>
-        {props.text} {average(props.value)}
-      </div>
+      <tr>
+        <td>{props.text}</td> 
+        <td>{average(props.value)}</td>
+      </tr>
     )
   }
 
   if (props.text === "positive") {
     return (
-      <div>
-        {props.text} {positive(props.value)} %
-      </div>
+      <tr>
+        <td>{props.text}</td> 
+        <td>{positive(props.value)} %</td>
+      </tr>
     )
   }
 

@@ -1,9 +1,33 @@
 import { useState } from 'react'
 
+const getGreatestValueIndexFromIntArray = (intArray) => {
+  let greatestValue = 0
+  let greatestValueIndex = 0
+  
+  for (let i = 0; i < intArray.length; i++) {
+    if (greatestValue < intArray[i]) {
+      greatestValue = intArray[i]
+      greatestValueIndex = i
+    }
+  }
+  return greatestValueIndex
+}
+
 function getRandomInt(min, max) {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min) + min)
+}
+
+const Header = (props) => {
+  console.log(props)
+  return (
+    <div>
+      <h1>
+        {props.header}
+      </h1>
+    </div>
+  )
 }
 
 const Button = (props) => { 
@@ -40,14 +64,19 @@ const App = () => {
     setAnecdoteVoteArray(copy)
   }
 
+  const greatestValueIndex = getGreatestValueIndexFromIntArray(anecdoteVoteArray) 
+
   return (
     <div>
+      <Header header={"Anecdote of the day"} />
       {anecdotes[selected]}
       <br></br>
       has {anecdoteVoteArray[selected]} votes
       <br></br>
       <Button handleClick={handleVoteClick} text="vote" />
       <Button handleClick={handleSelectedClick} text="next anecdote" />
+      <Header header={"Anecdote with most votes"} />
+      {anecdotes[greatestValueIndex]}
     </div>
   )
 }

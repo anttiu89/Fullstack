@@ -77,6 +77,8 @@ const App = () => {
       <Button handleClick={handleSelectedClick} text="next anecdote" />
       <Header header={"Anecdote with most votes"} />
       {anecdotes[greatestValueIndex]}
+      <br></br>
+      has {anecdoteVoteArray[greatestValueIndex]} votes
     </div>
   )
 }

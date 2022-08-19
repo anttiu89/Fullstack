@@ -64,6 +64,14 @@ const Statistics = (props) => {
   let averageVariable = average(props.good, props.neutral, props.bad)
   let positiveVariable = positive(props.good, props.neutral, props.bad)
 
+  if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
+
   return (
     <div>
       {props.goodText} {props.good}

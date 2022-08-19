@@ -56,6 +56,10 @@ const Button = (props) => {
 const Statistics = (props) => {
   console.log(props)
   
+  const allText = 'all'
+  const averageText = 'average'
+  const positiveText = 'positive'
+
   let allVariable = all(props.good, props.neutral, props.bad)
   let averageVariable = average(props.good, props.neutral, props.bad)
   let positiveVariable = positive(props.good, props.neutral, props.bad)
@@ -68,11 +72,11 @@ const Statistics = (props) => {
       <br></br>
       {props.badText} {props.bad}
       <br></br>
-      {props.allText} {allVariable}
+      {allText} {allVariable}
       <br></br>
-      {props.averageText} {averageVariable}
+      {averageText} {averageVariable}
       <br></br>
-      {props.positiveText} {positiveVariable} %
+      {positiveText} {positiveVariable} %
       <br></br>
     </div>
   )
@@ -87,9 +91,6 @@ const App = () => {
   const goodText = 'good'
   const neutralText = 'neutral'
   const badText = 'bad'
-  const allText = 'all'
-  const averageText = 'average'
-  const positiveText = 'positive'
 
   const handleGoodClick = () => {
     setGood(good + 1)
@@ -110,7 +111,7 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text={neutralText} />
       <Button handleClick={handleBadClick} text={badText} />
       <Header header={'statistics'} />
-      <Statistics good={good} goodText={goodText} neutral={neutral} neutralText={neutralText} bad={bad} badText={badText} allText={allText} averageText={averageText} positiveText={positiveText} />
+      <Statistics good={good} goodText={goodText} neutral={neutral} neutralText={neutralText} bad={bad} badText={badText} />
     </div>
   )
 }

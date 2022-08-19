@@ -1,15 +1,15 @@
 import { useState } from 'react'
 
-const all = (good, neutral, bad) => {
-  let allVariable = good + neutral + bad
+const all = (scoreObject) => {
+  let allVariable = scoreObject.good + scoreObject.neutral + scoreObject.bad
   return allVariable
 }
 
-const average = (good, neutral, bad) => {
-  let goodScoreCount = good * 1
-  let neutralScoreCount = neutral * 0
-  let badScoreCount = bad * -1
-  let allVariable = all(good, neutral, bad)
+const average = (scoreObject) => {
+  let goodScoreCount = scoreObject.good * 1
+  let neutralScoreCount = scoreObject.neutral * 0
+  let badScoreCount = scoreObject.bad * -1
+  let allVariable = all(scoreObject)
   let averageVariable = 0
   if (allVariable > 0){
     averageVariable = (goodScoreCount + neutralScoreCount + badScoreCount) / allVariable
@@ -17,11 +17,11 @@ const average = (good, neutral, bad) => {
   return averageVariable
 }
 
-const positive = (good, neutral, bad) => {
-  let allVariable = all(good, neutral, bad)
+const positive = (scoreObject) => {
+  let allVariable = all(scoreObject)
   let positiveVariable = 0
   if (allVariable > 0){
-    positiveVariable = ((good) / allVariable) * 100
+    positiveVariable = ((scoreObject.good) / allVariable) * 100
   }
   return round(positiveVariable)
 }
@@ -56,15 +56,7 @@ const Button = (props) => {
 const Statistics = (props) => {
   console.log(props)
   
-  const allText = 'all'
-  const averageText = 'average'
-  const positiveText = 'positive'
-
-  let allVariable = all(props.good, props.neutral, props.bad)
-  let averageVariable = average(props.good, props.neutral, props.bad)
-  let positiveVariable = positive(props.good, props.neutral, props.bad)
-
-  if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
+  if (props.scoreObject.good === 0 && props.scoreObject.neutral === 0 && props.scoreObject.bad === 0) {
     return (
       <div>
         No feedback given
@@ -74,20 +66,67 @@ const Statistics = (props) => {
 
   return (
     <div>
-      {props.goodText} {props.good}
-      <br></br>
-      {props.neutralText} {props.neutral}
-      <br></br>
-      {props.badText} {props.bad}
-      <br></br>
-      {allText} {allVariable}
-      <br></br>
-      {averageText} {averageVariable}
-      <br></br>
-      {positiveText} {positiveVariable} %
-      <br></br>
+      <StatisticLine text="good" value ={props.scoreObject} />
+      <StatisticLine text="neutral" value ={props.scoreObject} />
+      <StatisticLine text="bad" value ={props.scoreObject} />
+      <StatisticLine text="all" value ={props.scoreObject} />
+      <StatisticLine text="average" value ={props.scoreObject} />
+      <StatisticLine text="positive" value ={props.scoreObject} />
     </div>
   )
+}
+
+const StatisticLine = (props) => {
+  console.log(props)
+  
+  if (props.text === "good") {
+    return (
+      <div>
+        {props.text} {props.value.good}
+      </div>
+    )
+  }
+
+  if (props.text === "neutral") {
+    return (
+      <div>
+        {props.text} {props.value.neutral}
+      </div>
+    )
+  }
+
+  if (props.text === "bad") {
+    return (
+      <div>
+        {props.text} {props.value.bad}
+      </div>
+    )
+  }
+
+  if (props.text === "all") {
+    return (
+      <div>
+        {props.text} {all(props.value)}
+      </div>
+    )
+  }
+
+  if (props.text === "average") {
+    return (
+      <div>
+        {props.text} {average(props.value)}
+      </div>
+    )
+  }
+
+  if (props.text === "positive") {
+    return (
+      <div>
+        {props.text} {positive(props.value)} %
+      </div>
+    )
+  }
+
 }
 
 const App = () => {
@@ -95,10 +134,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
-  const goodText = 'good'
-  const neutralText = 'neutral'
-  const badText = 'bad'
 
   const handleGoodClick = () => {
     setGood(good + 1)
@@ -112,14 +147,20 @@ const App = () => {
     setBad(bad + 1)
   }
 
+  const scoreObject = {
+    good: good,
+    neutral: neutral,
+    bad: bad,
+  }
+
   return (
     <div>
       <Header header={'give feedback'} />
-      <Button handleClick={handleGoodClick} text={goodText} />
-      <Button handleClick={handleNeutralClick} text={neutralText} />
-      <Button handleClick={handleBadClick} text={badText} />
+      <Button handleClick={handleGoodClick} text="good" />
+      <Button handleClick={handleNeutralClick} text="neutral" />
+      <Button handleClick={handleBadClick} text="bad" />
       <Header header={'statistics'} />
-      <Statistics good={good} goodText={goodText} neutral={neutral} neutralText={neutralText} bad={bad} badText={badText} />
+      <Statistics scoreObject={scoreObject} />
     </div>
   )
 }

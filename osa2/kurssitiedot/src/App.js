@@ -1,8 +1,17 @@
-const sum = (parts) => {
+const sumForEach = (parts) => {
   let sumVariable = 0
   parts.forEach(value => {
     sumVariable += value.exercises
   })
+  return sumVariable
+}
+
+const sumArrayReduce = (parts) => {
+  const initialValue = 0
+  let sumVariable = parts.reduce((s, p) => {
+    console.log('what is happening', s, p)
+    return s + p.exercises 
+  }, initialValue)
   return sumVariable
 }
 
@@ -41,7 +50,7 @@ const Part = (props) => {
 
 const Total = (props) => {
   console.log(props)
-  let numberOfExercises = sum(props.partObjectList)
+  let numberOfExercises = sumArrayReduce(props.partObjectList)
   return (
     <div>
       <b>

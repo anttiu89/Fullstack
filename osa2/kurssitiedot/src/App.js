@@ -44,9 +44,9 @@ const Total = (props) => {
   let numberOfExercises = sum(props.partObjectList)
   return (
     <div>
-      <p>
-        Number of exercises {numberOfExercises} 
-      </p>
+      <b>
+        total of {numberOfExercises} exercises
+      </b>
     </div>
   )
 }
@@ -57,6 +57,7 @@ const Course = (props) => {
     <div>
       <Header header={props.course.name} />
       <Content partObjectList={props.course.parts} />
+      <Total partObjectList={props.course.parts} />
     </div>
   )
 }
@@ -80,6 +81,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }

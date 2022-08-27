@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const containsName = (paPersonArray, paName) => {
+  var nameArray = paPersonArray.map((person) => {
+    return person.name;
+  })
+  let containsVariable = nameArray.includes(paName)
+  return containsVariable
+}
+
 const Person = (props) => {
   return (
     <p>{props.person.name}</p>
@@ -18,8 +26,13 @@ const App = () => {
       name: newName
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    if (containsName(persons, newName) === true) {
+      alert(`${newName} is already added to phonebook`)
+    }
+    else {
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
   }
 
   const handleNameChange = (event) => {

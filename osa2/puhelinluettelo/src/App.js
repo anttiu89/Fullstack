@@ -11,24 +11,14 @@ const containsName = (paPersonArray, paName) => {
 
 const filterPersons = (paPersonArray, paFilter) => {
   console.log(paPersonArray)
-  let filteredPersonArray = paPersonArray.map((person) => {
+  let filteredPersonArray = paPersonArray.filter((person) => {
     if (paFilter.length === 0 || person.name.toUpperCase().includes(paFilter.toUpperCase()) === true) {
-      const personObject = {
-        name: person.name,
-        number: person.number
-      }
-      return personObject;
+      return true
     }
     else {
-      const personObject = {
-        name: "",
-        number: ""
-      }
-      return personObject;
+      return false
     }
   })
-
-  filteredPersonArray = filteredPersonArray.filter(person => person.name !== "")
   console.log(filteredPersonArray.length)
   return filteredPersonArray
 }

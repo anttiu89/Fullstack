@@ -25,24 +25,34 @@ const filterPersons = (paPersonArray, paFilter) => {
 }
 
 const Person = (props) => {
+  console.log(props)
   return (
-    <p>{props.person.name} {props.person.number}</p>
+    <p>{props.person.name} {props.person.number} <Button onClick={props.handleRemoveClick} text={"delete"} value={props.person} /> </p>
   )
 }
 
 const Persons = (props) => {
-  console.log(props)
+  console.log("Persons props", props)
   let filteredPersonArray = filterPersons(props.persons, props.filter)
   return (
     <div>
       {filteredPersonArray.map(person =>
-        <Person key={person.name} person={person} />
+        <Person key={person.name} person={person} handleRemoveClick={props.handleRemoveClick} />
       )}
     </div>
   )
 }
 
 const Button = (props) => { 
+  console.log("Button", props)
+  return (
+    <button onClick={() => props.onClick(props.value)}>
+      {props.text}
+    </button>
+  )
+}
+
+const ButtonSubmit = (props) => { 
   console.log(props)
   return (
     <div>
@@ -59,7 +69,7 @@ const FormAddPerson = (props) => {
     <form onSubmit={props.onSubmit}>
       <Input text={"name: "} value={props.newNameValue} onChange={props.newNameOnChange} />
       <Input text={"number: "} value={props.newNumberValue} onChange={props.newNumberOnChange} />
-      <Button type={"submit"} text={"add"} />
+      <ButtonSubmit type={"submit"} text={"add"} />
     </form>
   )
 }
@@ -108,6 +118,21 @@ const App = () => {
     }
   }
 
+  const removePerson = (personObject) => {
+    personService
+      .remove(personObject.id)
+      .then(() => {
+        setPersons(persons.filter((person) => {
+          if (person.id !== personObject.id) {
+            return true
+          }
+          else {
+            return false
+          }
+        }))
+      })
+  }
+
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -123,6 +148,13 @@ const App = () => {
     setNewFilterByName(event.target.value)
   }
 
+  const handleRemoveClick = (person) => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      console.log("Delete", person)
+      removePerson(person)
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -130,7 +162,7 @@ const App = () => {
       <h3>Add a new</h3>
       <FormAddPerson onSubmit={addPerson} newNameValue={newName} newNameOnChange={handleNameChange} newNumberValue={newNumber} newNumberOnChange={handleNumberChange} />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={newFilterByName} />
+      <Persons persons={persons} filter={newFilterByName} handleRemoveClick={handleRemoveClick} />
     </div>
   )
 

@@ -15,9 +15,31 @@ const findCountries = (paCountryArray, paFind) => {
   return countriesFound
 }
 
+const Button = (props) => { 
+  console.log(props)
+  return (
+    <button onClick={() => props.onClick(props.value)}>
+      {props.text}
+    </button>
+  )
+}
+
 const Country = (props) => {
   return (
-    <div>{props.country.name}</div>
+  <div>
+      <h1>{props.country.name}</h1>
+      <div>capital {props.country.capital}</div>
+      <div>area {props.country.area}</div>
+      <h3>languages:</h3>
+      <ul>
+        {props.country.languages.map(value => {
+          return <li key={value.name}>{value.name}</li>
+        })}
+      </ul>
+      <div>
+        <img src={props.country.flags.png} />
+      </div>
+    </div>
   )
 }
 
@@ -27,28 +49,18 @@ const Countries = (props) => {
 
   if (foundCountryArray.length === 1) {
     return (
-      <div>
-        <h1>{foundCountryArray[0].name}</h1>
-        <div>capital {foundCountryArray[0].capital}</div>
-        <div>area {foundCountryArray[0].area}</div>
-        <h3>languages:</h3>
-        <ul>
-          {foundCountryArray[0].languages.map(value => {
-            return <li key={value.name}>{value.name}</li>
-          })}
-        </ul>
-        <div>
-          <img src={foundCountryArray[0].flags.png} />
-        </div>
-      </div>
+      <Country country={foundCountryArray[0]} />
     )
   }
   else if (foundCountryArray.length <= 10 && foundCountryArray.length > 1) {
     return (
       <div>
-        {foundCountryArray.map(country =>
-          <Country key={country.name} country={country} />
-        )}
+        {foundCountryArray.map(country => {
+          return (
+            <div key={country.name}>
+              {country.name} <Button onClick={props.handleShowClick} text={"show"} value={country.name} />
+            </div>)
+        })}
       </div>
     )
   }
@@ -89,10 +101,14 @@ const App = () => {
     setNewFindByName(event.target.value)
   }
 
+  const handleShowClick = (find) => {
+    setNewFindByName(find)
+  }
+
   return (
     <div>
       <Input text={"find countries "} value={newFindByName} onChange={handleFindByNameChange} />
-      <Countries countries={countries} find={newFindByName} />
+      <Countries countries={countries} find={newFindByName} handleShowClick={handleShowClick} />
     </div>
   )
 

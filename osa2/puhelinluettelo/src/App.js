@@ -10,6 +10,28 @@ const containsName = (paPersonArray, paName) => {
   return containsVariable
 }
 
+const getPerson = (paPersonArray, paName) => {
+  let personObject = {
+    name: "",
+    number: "",
+    id: -1
+  }
+
+  let filteredPersonArray = paPersonArray.filter((person) => {
+    return person.name === paName
+  })
+
+  if (filteredPersonArray.length > 0) {
+    personObject = {
+      name: filteredPersonArray[0].name,
+      number: filteredPersonArray[0].number,
+      id: filteredPersonArray[0].id
+    }
+  }
+
+  return personObject
+}
+
 const filterPersons = (paPersonArray, paFilter) => {
   console.log(paPersonArray)
   let filteredPersonArray = paPersonArray.filter((person) => {
@@ -105,7 +127,18 @@ const App = () => {
     }
 
     if (containsName(persons, newName) === true) {
-      alert(`${newName} is already added to phonebook`)
+      let personObjectUpdate = getPerson(persons, newName)
+      if (personObjectUpdate.number !== newNumber) {
+        if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          console.log("Update", newName, newNumber)
+          personObjectUpdate.number = newNumber
+          console.log("Update", personObjectUpdate)
+          updatePerson(personObjectUpdate)
+        }
+      }
+      else {
+        alert(`${newName} is already added to phonebook`)
+      }
     }
     else {
       personService
@@ -116,6 +149,21 @@ const App = () => {
           setNewNumber('')
         })
     }
+  }
+
+  const updatePerson = (personObject) => {
+    personService
+      .update(personObject.id, personObject)
+      .then(updatedPerson => {
+        setPersons(persons.map((person) => {
+          if (person.id !== personObject.id) {
+            return person
+          }
+          else {
+            return updatedPerson
+          }
+        }))
+      })
   }
 
   const removePerson = (personObject) => {

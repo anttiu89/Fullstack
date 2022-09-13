@@ -105,11 +105,24 @@ const Input = (props) => {
   )
 }
 
+const Message = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="message">
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilterByName, setNewFilterByName] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -147,6 +160,12 @@ const App = () => {
           setPersons(persons.concat(createdPerson))
           setNewName('')
           setNewNumber('')
+          setMessage(
+            `Added ${personObject.name}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -163,6 +182,12 @@ const App = () => {
             return updatedPerson
           }
         }))
+        setMessage(
+          `Updated ${personObject.name}`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -178,6 +203,12 @@ const App = () => {
             return false
           }
         }))
+        setMessage(
+          `Deleted ${personObject.name}`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -206,6 +237,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Message message={message} />
       <Input text={"filter shown with: "} value={newFilterByName} onChange={handleFilterByNameChange} />
       <h3>Add a new</h3>
       <FormAddPerson onSubmit={addPerson} newNameValue={newName} newNameOnChange={handleNameChange} newNumberValue={newNumber} newNumberOnChange={handleNumberChange} />

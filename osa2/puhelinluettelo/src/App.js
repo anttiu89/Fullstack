@@ -105,14 +105,20 @@ const Input = (props) => {
   )
 }
 
-const Message = ({ message }) => {
-  if (message === null) {
+const Message = (props) => {
+  console.log(props)
+  if (props.message.message === null) {
     return null
   }
 
+  let classNameCss = "message"
+  if (props.message.isError === true) {
+    classNameCss = "errorMessage"
+  }
+  
   return (
-    <div className="message">
-      {message}
+    <div className={classNameCss}>
+      {props.message.message}
     </div>
   )
 }
@@ -122,7 +128,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilterByName, setNewFilterByName] = useState('')
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState({ message: null, isError: false })
 
   useEffect(() => {
     personService
@@ -160,11 +166,31 @@ const App = () => {
           setPersons(persons.concat(createdPerson))
           setNewName('')
           setNewNumber('')
-          setMessage(
-            `Added ${personObject.name}`
-          )
+          const newMessage = { 
+            message: `Added ${personObject.name}`, 
+            isError: false 
+          }
+          setMessage(newMessage)
           setTimeout(() => {
-            setMessage(null)
+            const emptyMessage = { 
+              message: null, 
+              isError: false 
+            }
+            setMessage(emptyMessage)
+          }, 5000)
+        })
+        .catch(error => {
+          const newMessage = { 
+            message: `Error occurred.`, 
+            isError: true 
+          }
+          setMessage(newMessage)
+          setTimeout(() => {
+            const emptyMessage = { 
+              message: null, 
+              isError: false 
+            }
+            setMessage(emptyMessage)
           }, 5000)
         })
     }
@@ -182,12 +208,33 @@ const App = () => {
             return updatedPerson
           }
         }))
-        setMessage(
-          `Updated ${personObject.name}`
-        )
+        const newMessage = { 
+          message: `Updated ${personObject.name}`, 
+          isError: false 
+        }
+        setMessage(newMessage)
         setTimeout(() => {
-          setMessage(null)
+          const emptyMessage = { 
+            message: null, 
+            isError: false 
+          }
+          setMessage(emptyMessage)
         }, 5000)
+      })
+      .catch(error => {
+        const newMessage = { 
+          message: `Information of ${personObject.name} has already been removed from server.`, 
+          isError: true 
+        }
+        setMessage(newMessage)
+        setTimeout(() => {
+          const emptyMessage = { 
+            message: null, 
+            isError: false 
+          }
+          setMessage(emptyMessage)
+        }, 5000)
+        setPersons(persons.filter(person => person.id !== personObject.id))
       })
   }
 
@@ -203,12 +250,33 @@ const App = () => {
             return false
           }
         }))
-        setMessage(
-          `Deleted ${personObject.name}`
-        )
+        const newMessage = { 
+          message: `Deleted ${personObject.name}`, 
+          isError: false 
+        }
+        setMessage(newMessage)
         setTimeout(() => {
-          setMessage(null)
+          const emptyMessage = { 
+            message: null, 
+            isError: false 
+          }
+          setMessage(emptyMessage)
         }, 5000)
+      })
+      .catch(error => {
+        const newMessage = { 
+          message: `Information of ${personObject.name} has already been removed from server.`, 
+          isError: true 
+        }
+        setMessage(newMessage)
+        setTimeout(() => {
+          const emptyMessage = { 
+            message: null, 
+            isError: false 
+          }
+          setMessage(emptyMessage)
+        }, 5000)
+        setPersons(persons.filter(person => person.id !== personObject.id))
       })
   }
 

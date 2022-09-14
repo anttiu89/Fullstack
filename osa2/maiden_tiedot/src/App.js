@@ -25,6 +25,7 @@ const Button = (props) => {
 }
 
 const Country = (props) => {
+  console.log(props)
   return (
   <div>
       <h1>{props.country.name}</h1>
@@ -39,6 +40,9 @@ const Country = (props) => {
       <div>
         <img src={props.country.flags.png} />
       </div>
+      <h2>Weather in {props.country.capital}</h2>
+      <div>temperature {props.weather.temperature} Celsius</div>
+      <div>wind {props.weather.windspeed} m/s</div>
     </div>
   )
 }
@@ -48,11 +52,20 @@ const Countries = (props) => {
   let foundCountryArray = findCountries(props.countries, props.find)
 
   if (foundCountryArray.length === 1) {
+    console.log(foundCountryArray[0])
+    if (!props.weather.isFound) {
+      const latitude = foundCountryArray[0].latlng[0]
+      const longitude = foundCountryArray[0].latlng[1]
+      props.initializeWeather(latitude, longitude)
+    }
     return (
-      <Country country={foundCountryArray[0]} />
+      <Country country={foundCountryArray[0]} weather={props.weather} />
     )
   }
   else if (foundCountryArray.length <= 10 && foundCountryArray.length > 1) {
+    if (props.weather.isFound) {
+      props.disposeWeather()
+    }
     return (
       <div>
         {foundCountryArray.map(country => {
@@ -66,6 +79,9 @@ const Countries = (props) => {
   }
   else
   {
+    if (props.weather.isFound) {
+      props.disposeWeather()
+    }
     return (
       <div>Too many matches, specify another filter</div>
     )
@@ -84,6 +100,7 @@ const Input = (props) => {
 const App = () => {
   const [countries, setCountries] = useState([]) 
   const [newFindByName, setNewFindByName] = useState('')
+  const [weather, setWeather] = useState({ latitude: 0, longitude: 0, temperature: 0, windspeed: 0, isFound: false })
 
   useEffect(() => {
     console.log("effect")
@@ -105,10 +122,45 @@ const App = () => {
     setNewFindByName(find)
   }
 
+  const getWeather = (latitude, longitude) => {
+    console.log("Latitude ", latitude, "Longitude ", longitude)
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+    console.log(url)
+    const request = axios.get(url)
+    return request.then(response => {
+      console.log("Get", response.status)
+        return response.data
+    })
+  }
+
+  const initializeWeather = (latitude, longitude) => {
+    getWeather(latitude, longitude).then(returnedWeather => {
+      const weatherObject = { 
+        latitude: returnedWeather.latitude, 
+        longitude: returnedWeather.longitude, 
+        temperature: returnedWeather.current_weather.temperature, 
+        windspeed: returnedWeather.current_weather.windspeed, 
+        isFound: true
+      }
+      setWeather(weatherObject)
+    })
+  }
+
+  const disposeWeather = () => {
+    const weatherObject = { 
+      latitude: 0, 
+      longitude: 0, 
+      temperature: 0, 
+      windspeed: 0, 
+      isFound: false
+    }
+    setWeather(weatherObject)
+  }
+
   return (
     <div>
       <Input text={"find countries "} value={newFindByName} onChange={handleFindByNameChange} />
-      <Countries countries={countries} find={newFindByName} handleShowClick={handleShowClick} />
+      <Countries countries={countries} find={newFindByName} handleShowClick={handleShowClick} weather={weather} disposeWeather={disposeWeather} initializeWeather={initializeWeather} />
     </div>
   )
 

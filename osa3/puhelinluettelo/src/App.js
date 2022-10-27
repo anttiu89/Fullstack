@@ -181,7 +181,7 @@ const App = () => {
         })
         .catch(error => {
           const newMessage = { 
-            message: `Error occurred.`, 
+            message: error.response.data.error, 
             isError: true 
           }
           setMessage(newMessage)

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Blog from "./Blog"
 import Button from "./Button"
 import FormCreateBlog from "./FormCreateBlog"
@@ -5,6 +6,7 @@ import Togglable from "./Togglable"
 
 const Blogs = (props) => {
   console.log(props)
+
   if (props.user === null) {
     return (null)
   } else {
@@ -19,7 +21,7 @@ const Blogs = (props) => {
         {props.blogs.map(blog => {
           return (
             <div key={blog.id}>
-              <Blog key={blog.id} blog={blog} />
+              <Blog blog={blog} />
             </div>)
         })}
       </div>

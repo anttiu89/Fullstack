@@ -9,8 +9,6 @@ const Message = (props) => {
     classNameCss = "errorMessage"
   }
   
-  console.log(classNameCss)
-  console.log(props.message.message)
   return (
     <div className={classNameCss}>
       {props.message.message}

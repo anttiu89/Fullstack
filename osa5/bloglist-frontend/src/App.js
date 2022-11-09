@@ -11,11 +11,26 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    const fetchData = async () => {
+      const data = await blogService.getAll()
+      setBlogs(data)
+    }
+    
+    try {
+      fetchData()
+    } catch (exception) {
+      const newMessage = { message: "fetchData failed", isError: true }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    }
   }, [])
 
   useEffect(() => {
@@ -44,16 +59,10 @@ const App = () => {
       setUsername("")
       setPassword("")
     } catch (exception) {
-      const newMessage = { 
-        message: "wrong credentials", 
-        isError: true 
-      }
+      const newMessage = { message: "wrong credentials", isError: true }
       setMessage(newMessage)
       setTimeout(() => {
-        const emptyMessage = { 
-          message: null, 
-          isError: false 
-        }
+        const emptyMessage = { message: null, isError: false }
         setMessage(emptyMessage)
       }, 5000)
     }
@@ -74,11 +83,63 @@ const App = () => {
     }
   }
 
+  const handleTitleChange = (event) => {
+    console.log(event.target.value)
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    console.log(event.target.value)
+    setNewAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    console.log(event.target.value)
+    setNewUrl(event.target.value)
+  }
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const blogObject = {
+        title: newTitle,
+        author: newAuthor,
+        url: newUrl
+      }
+      const blog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(blog))
+      setNewTitle("")
+      setNewAuthor("")
+      setNewUrl("")
+      const newMessage = { message: `Added ${blog.title}`, isError: false }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    } catch (exception) {
+      const newMessage = { message: "addBlog failed", isError: true }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    }
+  }
+
   return (
     <div>
       <Message message={message} />
       <Login handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} user={user}  />
-      <Blogs blogs={blogs} user={user} handleLogoutClick={handleLogoutClick} />
+      <Blogs blogs={blogs} user={user} 
+      handleLogoutClick={handleLogoutClick} 
+      newTitleValue={newTitle} 
+      newTitleOnChange={handleTitleChange} 
+      newAuthorValue={newAuthor} 
+      newAuthorOnChange={handleAuthorChange} 
+      newUrlValue={newUrl} 
+      newUrlOnChange={handleUrlChange}
+      onSubmitCreateBlog={addBlog}/>
     </div>
   )
 }

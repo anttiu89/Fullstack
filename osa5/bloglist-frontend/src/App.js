@@ -59,11 +59,26 @@ const App = () => {
     }
   }
 
+  const logout = (user) => {
+    setUser(null)
+    setUsername("")
+    setPassword("")
+    blogService.setToken(null)
+    window.localStorage.removeItem('loggedBlogappUser')
+  }
+
+  const handleLogoutClick = (user) => {
+    if (window.confirm(`Logout user ${user.username}?`)) {
+      console.log("Logout", user)
+      logout(user)
+    }
+  }
+
   return (
     <div>
       <Message message={message} />
-      <Login handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} user={user} />
-      <Blogs blogs={blogs} user={user} />
+      <Login handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} user={user}  />
+      <Blogs blogs={blogs} user={user} handleLogoutClick={handleLogoutClick} />
     </div>
   )
 }

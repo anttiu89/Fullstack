@@ -1,4 +1,5 @@
 import Blog from "./Blog"
+import Button from "./Button"
 
 const Blogs = (props) => {
   console.log(props)
@@ -8,7 +9,7 @@ const Blogs = (props) => {
     return (
       <div>
         <h2>blogs</h2>
-        <p>{props.user.name} logged in</p>
+        <p>{props.user.name} logged in <Button.ButtonOnClick onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
         {props.blogs.map(blog => {
           return (
             <div key={blog.id}>

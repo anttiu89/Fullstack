@@ -1,6 +1,7 @@
 import Blog from "./Blog"
 import Button from "./Button"
 import FormCreateBlog from "./FormCreateBlog"
+import Togglable from "./Togglable"
 
 const Blogs = (props) => {
   console.log(props)
@@ -12,13 +13,15 @@ const Blogs = (props) => {
         <h2>blogs</h2>
         <p>{props.user.name} logged in <Button.ButtonOnClick onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
         <h2>create new</h2>
-        <FormCreateBlog newTitleValue={props.newTitleValue} 
-        newTitleOnChange={props.newTitleOnChange} 
-        newAuthorValue={props.newAuthorValue} 
-        newAuthorOnChange={props.newAuthorOnChange} 
-        newUrlValue={props.newUrlValue} 
-        newUrlOnChange={props.newUrlOnChange}
-        onSubmitCreateBlog={props.onSubmitCreateBlog}/>
+        <Togglable buttonLabel="create new blog">
+          <FormCreateBlog newTitleValue={props.newTitleValue} 
+          newTitleOnChange={props.newTitleOnChange} 
+          newAuthorValue={props.newAuthorValue} 
+          newAuthorOnChange={props.newAuthorOnChange} 
+          newUrlValue={props.newUrlValue} 
+          newUrlOnChange={props.newUrlOnChange}
+          onSubmitCreateBlog={props.onSubmitCreateBlog}/>
+        </Togglable>
         {props.blogs.map(blog => {
           return (
             <div key={blog.id}>

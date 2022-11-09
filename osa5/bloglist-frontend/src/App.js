@@ -98,6 +98,16 @@ const App = () => {
     setNewUrl(event.target.value)
   }
 
+  const handleUsernameChange = (event) => {
+    console.log(event.target.value)
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    console.log(event.target.value)
+    setPassword(event.target.value)
+  }
+
   const addBlog = async (event) => {
     event.preventDefault()
     try {
@@ -130,8 +140,14 @@ const App = () => {
   return (
     <div>
       <Message message={message} />
-      <Login handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} user={user}  />
-      <Blogs blogs={blogs} user={user} 
+      <Login handleLogin={handleLogin} 
+      username={username} 
+      handleUsernameChange={handleUsernameChange} 
+      password={password} 
+      handlePasswordChange={handlePasswordChange} 
+      user={user} />
+      <Blogs blogs={blogs} 
+      user={user} 
       handleLogoutClick={handleLogoutClick} 
       newTitleValue={newTitle} 
       newTitleOnChange={handleTitleChange} 
@@ -139,7 +155,7 @@ const App = () => {
       newAuthorOnChange={handleAuthorChange} 
       newUrlValue={newUrl} 
       newUrlOnChange={handleUrlChange}
-      onSubmitCreateBlog={addBlog}/>
+      onSubmitCreateBlog={addBlog} />
     </div>
   )
 }

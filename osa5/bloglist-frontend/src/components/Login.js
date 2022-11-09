@@ -8,20 +8,18 @@ const Login = (props) => {
           <div>
             username
               <input
-              type="text"
-              value={props.username}
-              name="Username"
-              onChange={({ target }) => props.setUsername(target.value)}
-            />
+                type="text"
+                value={props.username}
+                onChange={props.handleUsernameChange}
+              />
           </div>
           <div>
             password
               <input
-              type="password"
-              value={props.password}
-              name="Password"
-              onChange={({ target }) => props.setPassword(target.value)}
-            />
+                type="password"
+                value={props.password}
+                onChange={props.handlePasswordChange}
+              />
           </div>
           <button type="submit">login</button>
         </form>

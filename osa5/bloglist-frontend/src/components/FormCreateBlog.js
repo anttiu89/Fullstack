@@ -8,7 +8,7 @@ const FormCreateBlog = (props) => {
       <Input text={"title: "} value={props.newTitleValue} onChange={props.newTitleOnChange} />
       <Input text={"author: "} value={props.newAuthorValue} onChange={props.newAuthorOnChange} />
       <Input text={"url: "} value={props.newUrlValue} onChange={props.newUrlOnChange} />
-      <Button.ButtonType type={"submit"} text={"add"} />
+      <Button.ButtonType type={"submit"} text={"create"} />
     </form>
   )
 }

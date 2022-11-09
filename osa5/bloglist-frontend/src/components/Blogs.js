@@ -11,6 +11,7 @@ const Blogs = (props) => {
       <div>
         <h2>blogs</h2>
         <p>{props.user.name} logged in <Button.ButtonOnClick onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
+        <h2>create new</h2>
         <FormCreateBlog newTitleValue={props.newTitleValue} 
         newTitleOnChange={props.newTitleOnChange} 
         newAuthorValue={props.newAuthorValue} 

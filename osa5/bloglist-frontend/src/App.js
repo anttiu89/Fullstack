@@ -59,7 +59,7 @@ const App = () => {
       setUsername("")
       setPassword("")
     } catch (exception) {
-      const newMessage = { message: "wrong credentials", isError: true }
+      const newMessage = { message: "wrong username or password", isError: true }
       setMessage(newMessage)
       setTimeout(() => {
         const emptyMessage = { message: null, isError: false }
@@ -111,14 +111,14 @@ const App = () => {
       setNewTitle("")
       setNewAuthor("")
       setNewUrl("")
-      const newMessage = { message: `Added ${blog.title}`, isError: false }
+      const newMessage = { message: `a new blog ${blog.title} by ${blog.author} added`, isError: false }
       setMessage(newMessage)
       setTimeout(() => {
         const emptyMessage = { message: null, isError: false }
         setMessage(emptyMessage)
       }, 5000)
     } catch (exception) {
-      const newMessage = { message: "addBlog failed", isError: true }
+      const newMessage = { message: exception.response.data.error, isError: true }
       setMessage(newMessage)
       setTimeout(() => {
         const emptyMessage = { message: null, isError: false }

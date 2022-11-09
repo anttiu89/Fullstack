@@ -1,5 +1,3 @@
-import Button from "./Button"
-
 const Login = (props) => {
   console.log(props)
   if (props.user === null) {
@@ -25,7 +23,7 @@ const Login = (props) => {
               onChange={({ target }) => props.setPassword(target.value)}
             />
           </div>
-          <Button.ButtonType type={"submit"} text={"login"} />
+          <button type="submit">login</button>
         </form>
       </div>
     )

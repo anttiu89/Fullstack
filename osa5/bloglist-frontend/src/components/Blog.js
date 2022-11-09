@@ -27,10 +27,10 @@ const Blog = (props) => {
     {props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"view"} value={true} />
     <div style={showWhenVisible}>
       <div style={blogStyle}>
-        <div>{props.blog.title} <Button.ButtonOnClick onClick={handleViewClick} text={"hide"} value={false} /></div>
+        <div>{props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"hide"} value={false} /></div>
         <div>{props.blog.url}</div>
         <div>{props.blog.likes} <Button.ButtonOnClick onClick={handleLikeClick} text={"like"} value={1} /></div> 
-        <div>{props.blog.author}</div>
+        <div>{props.blog.user.name}</div>
       </div>
     </div>
   </div>  

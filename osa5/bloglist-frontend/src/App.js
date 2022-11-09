@@ -11,10 +11,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
-
+  
   useEffect(() => {
     const fetchData = async () => {
       const data = await blogService.getAll()
@@ -83,21 +80,6 @@ const App = () => {
     }
   }
 
-  const handleTitleChange = (event) => {
-    console.log(event.target.value)
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    console.log(event.target.value)
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    console.log(event.target.value)
-    setNewUrl(event.target.value)
-  }
-
   const handleUsernameChange = (event) => {
     console.log(event.target.value)
     setUsername(event.target.value)
@@ -108,19 +90,10 @@ const App = () => {
     setPassword(event.target.value)
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
+  const addBlog = async (blogObject) => {
     try {
-      const blogObject = {
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl
-      }
       const blog = await blogService.create(blogObject)
       setBlogs(blogs.concat(blog))
-      setNewTitle("")
-      setNewAuthor("")
-      setNewUrl("")
       const newMessage = { message: `a new blog ${blog.title} by ${blog.author} added`, isError: false }
       setMessage(newMessage)
       setTimeout(() => {
@@ -149,13 +122,7 @@ const App = () => {
       <Blogs blogs={blogs} 
       user={user} 
       handleLogoutClick={handleLogoutClick} 
-      newTitleValue={newTitle} 
-      newTitleOnChange={handleTitleChange} 
-      newAuthorValue={newAuthor} 
-      newAuthorOnChange={handleAuthorChange} 
-      newUrlValue={newUrl} 
-      newUrlOnChange={handleUrlChange}
-      onSubmitCreateBlog={addBlog} />
+      createBlog={addBlog} />
     </div>
   )
 }

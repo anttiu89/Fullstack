@@ -14,13 +14,7 @@ const Blogs = (props) => {
         <p>{props.user.name} logged in <Button.ButtonOnClick onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
         <h2>create new</h2>
         <Togglable buttonLabel="create new blog">
-          <FormCreateBlog newTitleValue={props.newTitleValue} 
-          newTitleOnChange={props.newTitleOnChange} 
-          newAuthorValue={props.newAuthorValue} 
-          newAuthorOnChange={props.newAuthorOnChange} 
-          newUrlValue={props.newUrlValue} 
-          newUrlOnChange={props.newUrlOnChange}
-          onSubmitCreateBlog={props.onSubmitCreateBlog}/>
+          <FormCreateBlog createBlog={props.createBlog}/>
         </Togglable>
         {props.blogs.map(blog => {
           return (

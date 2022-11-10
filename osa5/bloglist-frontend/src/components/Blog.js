@@ -17,10 +17,6 @@ const Blog = (props) => {
     setVisible(visible)
   }
 
-  const handleLikeClick = (like) => {
-    
-  }
-
   console.log(props)
   return (
   <div>
@@ -29,7 +25,7 @@ const Blog = (props) => {
       <div style={blogStyle}>
         <div>{props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"hide"} value={false} /></div>
         <div>{props.blog.url}</div>
-        <div>{props.blog.likes} <Button.ButtonOnClick onClick={handleLikeClick} text={"like"} value={1} /></div> 
+        <div>{props.blog.likes} <Button.ButtonOnClick onClick={props.handleLikeClick} text={"like"} value={props.blog} /></div> 
         <div>{props.blog.user.name}</div>
       </div>
     </div>

@@ -90,6 +90,11 @@ const App = () => {
     setPassword(event.target.value)
   }
 
+  const handleLikeClick = async (blogObject) => {
+    ++blogObject.likes
+    await updateBlog(blogObject)
+  }
+
   const addBlog = async (blogObject) => {
     try {
       const blog = await blogService.create(blogObject)
@@ -110,6 +115,32 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (blogObject) => {
+    try {
+      const updateBlog = {
+        user: blogObject.user.id,
+        likes: blogObject.likes,
+        author: blogObject.author,
+        title: blogObject.title,
+        url: blogObject.url
+      }
+      const blog = await blogService.update(blogObject.id, updateBlog)
+      const newMessage = { message: `a blog ${blog.title} by ${blog.author} updated`, isError: false }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    } catch (exception) {
+      const newMessage = { message: exception.response.data.error, isError: true }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    }
+  }
+  
   return (
     <div>
       <Message message={message} />
@@ -122,7 +153,8 @@ const App = () => {
       <Blogs blogs={blogs} 
       user={user} 
       handleLogoutClick={handleLogoutClick} 
-      createBlog={addBlog} />
+      createBlog={addBlog}
+      handleLikeClick={handleLikeClick} />
     </div>
   )
 }

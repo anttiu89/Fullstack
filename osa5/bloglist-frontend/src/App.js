@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Blogs from "./components/Blogs"
 import Login from "./components/Login"
 import Message from "./components/Message"
@@ -124,6 +124,7 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     try {
+      blogFormRef.current.toggleVisibility()
       const blog = await blogService.create(blogObject)
       const blogsTemp = blogs.concat(blog)
       const blogsSortedByLikes = blogsTemp.sort(sortByLikesDescending)
@@ -201,6 +202,8 @@ const App = () => {
     }
   }
   
+  const blogFormRef = useRef()
+
   return (
     <div>
       <Message message={message} />
@@ -215,7 +218,8 @@ const App = () => {
       handleLogoutClick={handleLogoutClick} 
       createBlog={addBlog}
       handleLikeClick={handleLikeClick}
-      handleRemoveClick={handleRemoveClick} />
+      handleRemoveClick={handleRemoveClick}
+      ref={blogFormRef} />
     </div>
   )
 }

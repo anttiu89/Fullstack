@@ -116,6 +116,12 @@ const App = () => {
     await updateBlog(blogObject)
   }
 
+  const handleRemoveClick = async (blogObject) => {
+    if (window.confirm(`Remove blog ${blogObject.title} by ${blogObject.author}?`)) {
+      await removeBlog(blogObject)
+    }
+  }
+
   const addBlog = async (blogObject) => {
     try {
       const blog = await blogService.create(blogObject)
@@ -165,6 +171,35 @@ const App = () => {
       }, 5000)
     }
   }
+
+  const removeBlog = async (blogObject) => {
+    try {
+      const response = await blogService.remove(blogObject.id)
+      const blogsTemp = blogs.filter((blog) => {
+        if (blog.id !== blogObject.id) {
+          return true
+        }
+        else {
+          return false
+        }
+      })
+      const blogsSortedByLikes = blogsTemp.sort(sortByLikesDescending)
+      setBlogs(blogsSortedByLikes)
+      const newMessage = { message: `a blog ${blogObject.title} by ${blogObject.author} removed`, isError: false }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    } catch (exception) {
+      const newMessage = { message: exception.response.data.error, isError: true }
+      setMessage(newMessage)
+      setTimeout(() => {
+        const emptyMessage = { message: null, isError: false }
+        setMessage(emptyMessage)
+      }, 5000)
+    }
+  }
   
   return (
     <div>
@@ -179,7 +214,8 @@ const App = () => {
       user={user} 
       handleLogoutClick={handleLogoutClick} 
       createBlog={addBlog}
-      handleLikeClick={handleLikeClick} />
+      handleLikeClick={handleLikeClick}
+      handleRemoveClick={handleRemoveClick} />
     </div>
   )
 }

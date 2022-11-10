@@ -21,7 +21,7 @@ const Blogs = (props) => {
         {props.blogs.map(blog => {
           return (
             <div key={blog.id}>
-              <Blog blog={blog} handleLikeClick={props.handleLikeClick} />
+              <Blog blog={blog} handleLikeClick={props.handleLikeClick} handleRemoveClick={props.handleRemoveClick} user={props.user} />
             </div>)
         })}
       </div>

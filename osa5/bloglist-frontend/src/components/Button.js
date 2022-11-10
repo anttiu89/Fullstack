@@ -1,4 +1,6 @@
-const ButtonOnClick = (props) => { 
+import PropTypes from "prop-types"
+
+const ButtonOnClick = (props) => {
   console.log("Button", props)
   return (
     <button onClick={() => props.onClick(props.value)}>
@@ -7,7 +9,12 @@ const ButtonOnClick = (props) => {
   )
 }
 
-const ButtonType = (props) => { 
+ButtonOnClick.propTypes = {
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+}
+
+const ButtonType = (props) => {
   console.log(props)
   return (
     <div>
@@ -18,7 +25,12 @@ const ButtonType = (props) => {
   )
 }
 
-export default { 
+ButtonType.propTypes = {
+  text: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+}
+
+export default {
   ButtonOnClick,
   ButtonType
 }

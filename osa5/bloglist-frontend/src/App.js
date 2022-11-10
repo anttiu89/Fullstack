@@ -5,16 +5,6 @@ import Message from "./components/Message"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
 
-const sortByLikesAscending = (a, b) => {
-  if (a.likes < b.likes){
-    return -1
-  }
-  if (a.likes > b.likes){
-    return 1
-  }
-  return 0
-}
-
 const sortByLikesDescending = (a, b) => {
   if (a.likes > b.likes){
     return -1
@@ -28,17 +18,17 @@ const sortByLikesDescending = (a, b) => {
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState({ message: null, isError: false })
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await blogService.getAll()
       const blogsSortedByLikes = data.sort(sortByLikesDescending)
       setBlogs(blogsSortedByLikes)
     }
-    
+
     try {
       fetchData()
     } catch (exception) {
@@ -52,7 +42,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser")
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -62,16 +52,16 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
       })
-      
+
       window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
+        "loggedBlogappUser", JSON.stringify(user)
       )
-      
+
       blogService.setToken(user.token)
       setUser(user)
       setUsername("")
@@ -87,16 +77,16 @@ const App = () => {
   }
 
   const logout = (user) => {
+    console.log("Logout", user)
     setUser(null)
     setUsername("")
     setPassword("")
     blogService.setToken(null)
-    window.localStorage.removeItem('loggedBlogappUser')
+    window.localStorage.removeItem("loggedBlogappUser")
   }
 
   const handleLogoutClick = (user) => {
     if (window.confirm(`Logout user ${user.username}?`)) {
-      console.log("Logout", user)
       logout(user)
     }
   }
@@ -175,7 +165,7 @@ const App = () => {
 
   const removeBlog = async (blogObject) => {
     try {
-      const response = await blogService.remove(blogObject.id)
+      await blogService.remove(blogObject.id)
       const blogsTemp = blogs.filter((blog) => {
         if (blog.id !== blogObject.id) {
           return true
@@ -201,25 +191,25 @@ const App = () => {
       }, 5000)
     }
   }
-  
+
   const blogFormRef = useRef()
 
   return (
     <div>
       <Message message={message} />
-      <Login handleLogin={handleLogin} 
-      username={username} 
-      handleUsernameChange={handleUsernameChange} 
-      password={password} 
-      handlePasswordChange={handlePasswordChange} 
-      user={user} />
-      <Blogs blogs={blogs} 
-      user={user} 
-      handleLogoutClick={handleLogoutClick} 
-      createBlog={addBlog}
-      handleLikeClick={handleLikeClick}
-      handleRemoveClick={handleRemoveClick}
-      ref={blogFormRef} />
+      <Login handleLogin={handleLogin}
+        username={username}
+        handleUsernameChange={handleUsernameChange}
+        password={password}
+        handlePasswordChange={handlePasswordChange}
+        user={user} />
+      <Blogs blogs={blogs}
+        user={user}
+        handleLogoutClick={handleLogoutClick}
+        createBlog={addBlog}
+        handleLikeClick={handleLikeClick}
+        handleRemoveClick={handleRemoveClick}
+        ref={blogFormRef} />
     </div>
   )
 }

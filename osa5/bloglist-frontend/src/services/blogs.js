@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios"
+const baseUrl = "/api/blogs"
 
 let token = null
 
@@ -39,7 +39,7 @@ const remove = async (id) => {
   return response.status
 }
 
-export default { 
+export default {
   setToken,
   getAll,
   create,

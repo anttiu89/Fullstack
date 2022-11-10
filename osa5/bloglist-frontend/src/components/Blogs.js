@@ -1,8 +1,9 @@
-import { useState, useRef, forwardRef } from 'react'
+import { forwardRef } from "react"
 import Blog from "./Blog"
 import Button from "./Button"
 import FormCreateBlog from "./FormCreateBlog"
 import Togglable from "./Togglable"
+import PropTypes from "prop-types"
 
 const Blogs = forwardRef((props, ref) => {
   console.log(props)
@@ -28,5 +29,15 @@ const Blogs = forwardRef((props, ref) => {
     )
   }
 })
+
+Blogs.displayName = "Blogs"
+
+Blogs.propTypes = {
+  handleLogoutClick: PropTypes.func.isRequired,
+  createBlog: PropTypes.func.isRequired,
+  handleLikeClick: PropTypes.func.isRequired,
+  handleRemoveClick: PropTypes.func.isRequired,
+  user: PropTypes.object,
+}
 
 export default Blogs

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 const Login = (props) => {
   console.log(props)
   if (props.user === null) {
@@ -7,19 +9,19 @@ const Login = (props) => {
         <form onSubmit={props.handleLogin}>
           <div>
             username
-              <input
-                type="text"
-                value={props.username}
-                onChange={props.handleUsernameChange}
-              />
+            <input
+              type="text"
+              value={props.username}
+              onChange={props.handleUsernameChange}
+            />
           </div>
           <div>
             password
-              <input
-                type="password"
-                value={props.password}
-                onChange={props.handlePasswordChange}
-              />
+            <input
+              type="password"
+              value={props.password}
+              onChange={props.handlePasswordChange}
+            />
           </div>
           <button type="submit">login</button>
         </form>
@@ -28,6 +30,14 @@ const Login = (props) => {
   } else {
     return (null)
   }
+}
+
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  handleUsernameChange: PropTypes.func.isRequired,
+  handlePasswordChange: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired
 }
 
 export default Login

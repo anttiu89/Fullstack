@@ -1,13 +1,14 @@
 import { useState } from "react"
 import Button from "./Button"
 import Input from "./Input"
+import PropTypes from "prop-types"
 
-const FormCreateBlog = (props) => { 
+const FormCreateBlog = (props) => {
   console.log(props)
 
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+  const [newTitle, setNewTitle] = useState("")
+  const [newAuthor, setNewAuthor] = useState("")
+  const [newUrl, setNewUrl] = useState("")
 
   const handleTitleChange = (event) => {
     console.log(event.target.value)
@@ -45,6 +46,10 @@ const FormCreateBlog = (props) => {
       <Button.ButtonType type={"submit"} text={"create"} />
     </form>
   )
+}
+
+FormCreateBlog.propTypes = {
+  createBlog: PropTypes.func.isRequired
 }
 
 export default FormCreateBlog

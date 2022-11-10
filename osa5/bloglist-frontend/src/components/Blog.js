@@ -3,6 +3,7 @@ import Button from "./Button"
 
 const Blog = (props) => {
   const [visible, setVisible] = useState(false)
+  const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const blogStyle = {
@@ -20,7 +21,11 @@ const Blog = (props) => {
   console.log(props)
   return (
   <div>
-    {props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"view"} value={true} />
+    <div style={hideWhenVisible}>
+      <div style={blogStyle}>
+        {props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"view"} value={true} />
+      </div>
+    </div>
     <div style={showWhenVisible}>
       <div style={blogStyle}>
         <div>{props.blog.title} {props.blog.author} <Button.ButtonOnClick onClick={handleViewClick} text={"hide"} value={false} /></div>

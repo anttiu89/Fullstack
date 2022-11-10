@@ -5,6 +5,26 @@ import Message from "./components/Message"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
 
+const sortByLikesAscending = (a, b) => {
+  if (a.likes < b.likes){
+    return -1
+  }
+  if (a.likes > b.likes){
+    return 1
+  }
+  return 0
+}
+
+const sortByLikesDescending = (a, b) => {
+  if (a.likes > b.likes){
+    return -1
+  }
+  if (a.likes < b.likes){
+    return 1
+  }
+  return 0
+}
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState({ message: null, isError: false })
@@ -15,7 +35,8 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await blogService.getAll()
-      setBlogs(data)
+      const blogsSortedByLikes = data.sort(sortByLikesDescending)
+      setBlogs(blogsSortedByLikes)
     }
     
     try {
@@ -98,7 +119,9 @@ const App = () => {
   const addBlog = async (blogObject) => {
     try {
       const blog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(blog))
+      const blogsTemp = blogs.concat(blog)
+      const blogsSortedByLikes = blogsTemp.sort(sortByLikesDescending)
+      setBlogs(blogsSortedByLikes)
       const newMessage = { message: `a new blog ${blog.title} by ${blog.author} added`, isError: false }
       setMessage(newMessage)
       setTimeout(() => {
@@ -125,6 +148,8 @@ const App = () => {
         url: blogObject.url
       }
       const blog = await blogService.update(blogObject.id, updateBlog)
+      const blogsSortedByLikes = blogs.sort(sortByLikesDescending)
+      setBlogs(blogsSortedByLikes)
       const newMessage = { message: `a blog ${blog.title} by ${blog.author} updated`, isError: false }
       setMessage(newMessage)
       setTimeout(() => {

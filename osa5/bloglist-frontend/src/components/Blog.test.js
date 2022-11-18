@@ -26,12 +26,12 @@ test("renders blog title author", () => {
   screen.debug()
 
   const titleAuthorDiv = container.querySelector(".blog")
-  expect(titleAuthorDiv).toHaveTextContent("Component testing is done with react-testing-library" + " " + "Test")
+  expect(titleAuthorDiv).toHaveTextContent(blog.title + " " + blog.author)
 
-  const urlDiv = screen.queryByText("https://testi.com")
+  const urlDiv = screen.queryByText(blog.url)
   expect(urlDiv).toBeNull
 
-  const urlLikes = screen.queryByText("0")
+  const urlLikes = screen.queryByText(blog.likes)
   expect(urlLikes).toBeNull
 })
 
@@ -60,10 +60,10 @@ test("clicking the button view shows url and likes", async () => {
   await appUser.click(button)
 
   const urlDiv = container.querySelector(".blogUrl")
-  expect(urlDiv).toHaveTextContent("https://testi.com")
+  expect(urlDiv).toHaveTextContent(blog.url)
 
   const urlLikes = container.querySelector(".blogLikes")
-  expect(urlLikes).toHaveTextContent("0")
+  expect(urlLikes).toHaveTextContent(blog.likes)
 })
 
 test("clicking the button like calls event handler", async () => {
@@ -100,6 +100,18 @@ test("clicking the button like calls event handler", async () => {
 })
 
 test("FormCreateBlog calls callback with correct data onSubmit", async () => {
+  const blogUser = {
+    name: "TestUser"
+  }
+
+  const blog = {
+    title: "TestTitle",
+    author: "TestAuthor",
+    url: "https://test.com",
+    likes: 0,
+    user: blogUser
+  }
+
   const appUser = userEvent.setup()
   const createBlog = jest.fn()
 
@@ -111,18 +123,14 @@ test("FormCreateBlog calls callback with correct data onSubmit", async () => {
   const inputUrl = screen.getByPlaceholderText("Url")
   const sendButton = screen.getByText("create")
 
-  expect(inputTitle).toHaveTextContent("")
-  expect(inputAuthor).toHaveTextContent("")
-  expect(inputUrl).toHaveTextContent("")
-
-  await appUser.type(inputTitle, "T")
-  await appUser.type(inputAuthor, "T")
-  await appUser.type(inputUrl, "T")
-  screen.debug()
+  await appUser.type(inputTitle, blog.title)
+  await appUser.type(inputAuthor, blog.author)
+  await appUser.type(inputUrl, blog.url)
   await appUser.click(sendButton)
-  screen.debug()
 
   expect(createBlog.mock.calls).toHaveLength(1)
-  expect(createBlog.mock.calls[0][0].content).toBe("T")
+  expect(createBlog.mock.calls[0][0].title).toBe(blog.title)
+  expect(createBlog.mock.calls[0][0].author).toBe(blog.author)
+  expect(createBlog.mock.calls[0][0].url).toBe(blog.url)
 })
 

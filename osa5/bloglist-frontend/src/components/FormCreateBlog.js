@@ -4,7 +4,7 @@ import Input from "./Input"
 import PropTypes from "prop-types"
 
 const FormCreateBlog = (props) => {
-  console.log(props)
+  //console.log(props)
 
   const [newTitle, setNewTitle] = useState("")
   const [newAuthor, setNewAuthor] = useState("")
@@ -26,6 +26,7 @@ const FormCreateBlog = (props) => {
   }
 
   const addBlog = async (event) => {
+    console.log("AddBlogStart")
     event.preventDefault()
     const blogObject = {
       title: newTitle,
@@ -36,13 +37,14 @@ const FormCreateBlog = (props) => {
     setNewTitle("")
     setNewAuthor("")
     setNewUrl("")
+    console.log("AddBlogEnd")
   }
 
   return (
     <form onSubmit={addBlog}>
-      <Input text={"title: "} value={newTitle} onChange={handleTitleChange} />
-      <Input text={"author: "} value={newAuthor} onChange={handleAuthorChange} />
-      <Input text={"url: "} value={newUrl} onChange={handleUrlChange} />
+      <Input placeholder="Title" text={"title: "} value={newTitle} onChange={handleTitleChange} />
+      <Input placeholder="Author" text={"author: "} value={newAuthor} onChange={handleAuthorChange} />
+      <Input placeholder="Url" text={"url: "} value={newUrl} onChange={handleUrlChange} />
       <Button.ButtonType type={"submit"} text={"create"} />
     </form>
   )

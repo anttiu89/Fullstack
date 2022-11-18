@@ -20,7 +20,7 @@ const Blog = (props) => {
     setRemoveVisible(props.user.username === props.blog.user.username)
   }
 
-  console.log(props)
+  //console.log(props)
   if (!visible) {
     return (
       <div style={blogStyle} className="blog">

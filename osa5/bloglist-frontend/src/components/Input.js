@@ -4,7 +4,7 @@ const Input = (props) => {
   //console.log(props)
   return (
     <div>
-      {props.text} <input placeholder={props.placeholder} value={props.value} onChange={props.onChange} />
+      {props.text} <input id={props.id} placeholder={props.placeholder} value={props.value} onChange={props.onChange} />
     </div>
   )
 }

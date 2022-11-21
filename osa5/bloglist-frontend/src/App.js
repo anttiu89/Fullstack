@@ -116,6 +116,8 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility()
       const blog = await blogService.create(blogObject)
+      console.log("Add blog:")
+      console.log(blog)
       const blogsTemp = blogs.concat(blog)
       const blogsSortedByLikes = blogsTemp.sort(sortByLikesDescending)
       setBlogs(blogsSortedByLikes)

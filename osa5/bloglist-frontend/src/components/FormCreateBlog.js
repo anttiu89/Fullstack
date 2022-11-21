@@ -42,10 +42,10 @@ const FormCreateBlog = (props) => {
 
   return (
     <form onSubmit={addBlog}>
-      <Input placeholder="Title" text={"title: "} value={newTitle} onChange={handleTitleChange} />
-      <Input placeholder="Author" text={"author: "} value={newAuthor} onChange={handleAuthorChange} />
-      <Input placeholder="Url" text={"url: "} value={newUrl} onChange={handleUrlChange} />
-      <Button.ButtonType type={"submit"} text={"create"} />
+      <Input id="Title" placeholder="Title" text={"title: "} value={newTitle} onChange={handleTitleChange} />
+      <Input id="Author" placeholder="Author" text={"author: "} value={newAuthor} onChange={handleAuthorChange} />
+      <Input id="Url" placeholder="Url" text={"url: "} value={newUrl} onChange={handleUrlChange} />
+      <Button.ButtonType id="Create" type={"submit"} text={"create"} />
     </form>
   )
 }

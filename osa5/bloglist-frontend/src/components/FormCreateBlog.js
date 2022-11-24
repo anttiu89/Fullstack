@@ -45,7 +45,7 @@ const FormCreateBlog = (props) => {
       <Input id="Title" placeholder="Title" text={"title: "} value={newTitle} onChange={handleTitleChange} />
       <Input id="Author" placeholder="Author" text={"author: "} value={newAuthor} onChange={handleAuthorChange} />
       <Input id="Url" placeholder="Url" text={"url: "} value={newUrl} onChange={handleUrlChange} />
-      <Button.ButtonType id="Create" type={"submit"} text={"create"} />
+      <Button.ButtonType className="buttonCreate" id="Create" type={"submit"} text={"create"} />
     </form>
   )
 }

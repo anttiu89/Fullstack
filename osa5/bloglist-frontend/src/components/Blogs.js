@@ -14,7 +14,7 @@ const Blogs = forwardRef((props, ref) => {
     return (
       <div>
         <h2>blogs</h2>
-        <p>{props.user.name} logged in <Button.ButtonOnClick id="Logout" onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
+        <p>{props.user.name} logged in <Button.ButtonOnClick className="buttonLogout" id="Logout" onClick={props.handleLogoutClick} text={"logout"} value={props.user} /></p>
         <h2>create new</h2>
         <Togglable buttonLabel="create new blog" ref={ref}>
           <FormCreateBlog createBlog={props.createBlog}/>

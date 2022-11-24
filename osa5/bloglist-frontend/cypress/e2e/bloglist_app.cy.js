@@ -98,5 +98,33 @@ describe("Blog app", function() {
       cy.get("#View").click()
       cy.get("#Remove").should("not.exist")
     })
+
+    it("A blog which is liked most is on top", function() {
+      cy.contains("create new blog").click()
+      cy.get("#Title").type("The title with the most likes")
+      cy.get("#Author").type("TestAuthor")
+      cy.get("#Url").type("https://test.com")
+      cy.get("#Create").click()
+
+      cy.contains("create new blog").click()
+      cy.get("#Title").type("The title with the second most likes")
+      cy.get("#Author").type("TestAuthor")
+      cy.get("#Url").type("https://test.com")
+      cy.get("#Create").click()
+      cy.wait(1000)
+
+      cy.get(".buttonView").eq(1).click()
+      cy.get(".buttonLike").eq(0).click()
+      cy.get(".buttonHide").eq(0).click()
+      cy.wait(1000)
+
+      cy.get(".buttonView").eq(1).click()
+      cy.get(".buttonLike").eq(0).click()
+      cy.get(".buttonLike").eq(0).click()
+      cy.get(".buttonHide").eq(0).click()
+
+      cy.get(".blog").eq(0).should("contain", "The title with the most likes")
+      cy.get(".blog").eq(1).should("contain", "The title with the second most likes")
+    })
   })
 })

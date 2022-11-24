@@ -25,26 +25,26 @@ const Blog = (props) => {
   if (!visible) {
     return (
       <div style={blogStyle} className="blog">
-        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick id="View" onClick={handleViewClick} text={"view"} value={true} /></div>
+        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick className="buttonView" id="View" onClick={handleViewClick} text={"view"} value={true} /></div>
       </div>
     )
   } else if (visible && !removeVisible) {
     return (
       <div style={blogStyle} className="blog">
-        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick id="Hide" onClick={handleViewClick} text={"hide"} value={false} /></div>
+        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick className="buttonHide" id="Hide" onClick={handleViewClick} text={"hide"} value={false} /></div>
         <div className="blogUrl">{props.blog.url}</div>
-        <div className="blogLikes">{props.blog.likes} <Button.ButtonOnClick id="Like" onClick={props.handleLikeClick} text={"like"} value={props.blog} /></div>
+        <div className="blogLikes">{props.blog.likes} <Button.ButtonOnClick className="buttonLike" id="Like" onClick={props.handleLikeClick} text={"like"} value={props.blog} /></div>
         <div className="blogUser">{props.blog.user.name}</div>
       </div>
     )
   } else {
     return (
       <div style={blogStyle} className="blog">
-        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick id="Hide" onClick={handleViewClick} text={"hide"} value={false} /></div>
+        <div className="blogTitleAuthor">{props.blog.title} {props.blog.author} <Button.ButtonOnClick className="buttonHide" id="Hide" onClick={handleViewClick} text={"hide"} value={false} /></div>
         <div className="blogUrl">{props.blog.url}</div>
-        <div className="blogLikes">{props.blog.likes} <Button.ButtonOnClick id="Like" onClick={props.handleLikeClick} text={"like"} value={props.blog} /></div>
+        <div className="blogLikes">{props.blog.likes} <Button.ButtonOnClick className="buttonLike" id="Like" onClick={props.handleLikeClick} text={"like"} value={props.blog} /></div>
         <div className="blogUser">{props.blog.user.name}</div>
-        <Button.ButtonOnClick id="Remove" onClick={props.handleRemoveClick} text={"remove"} value={props.blog} />
+        <Button.ButtonOnClick className="buttonRemove" id="Remove" onClick={props.handleRemoveClick} text={"remove"} value={props.blog} />
       </div>
     )
   }

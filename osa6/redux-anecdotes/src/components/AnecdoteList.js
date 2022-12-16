@@ -27,7 +27,9 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const Anecdotes = () => {
   const dispatch = useDispatch()
-  const unsortedAnecdotes = useSelector(state => state)
+  const unsortedAnecdotes = useSelector(({ anecdotes }) => {
+    return anecdotes
+  })
   const anecdotes = unsortedAnecdotes.sort(sortByVotesDescending)
 
   return(

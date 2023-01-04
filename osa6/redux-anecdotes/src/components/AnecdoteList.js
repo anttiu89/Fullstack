@@ -11,37 +11,31 @@ const sortByVotesDescending = (a, b) => {
   return 0
 }
 
-const Anecdote = ({ anecdote, handleClick }) => {
-  return(
-    <div>
-      <div>
-        {anecdote.content}
-      </div>
-      <div>
-        has {anecdote.votes}
-        <button onClick={handleClick}>vote</button>
-      </div>
-    </div>
-  )
-}
-
 const Anecdotes = () => {
+  const fullState = useSelector(state => state)
+  console.log("State_a", fullState)
+  const anecdotes = fullState.anecdotes
+  console.log("anec: ", anecdotes)
+  anecdotes.sort((a, b) => b.votes - a.votes)
+
   const dispatch = useDispatch()
-  const unsortedAnecdotes = useSelector(({ anecdotes }) => {
-    return anecdotes
-  })
-  const anecdotes = unsortedAnecdotes.sort(sortByVotesDescending)
+  const vote = (anecdote) => {
+    console.log("Anecdote", fullState)
+    dispatch(voteIncreaser(anecdote.id))
+  }
 
   return(
     <div>
       {anecdotes.map(anecdote =>
-        <Anecdote
-          key={anecdote.id}
-          anecdote={anecdote}
-          handleClick={() => 
-            dispatch(voteIncreaser(anecdote.id))
-          }
-        />
+        <div key={anecdote.id}>
+          <div>
+            {anecdote.content}
+          </div>
+          <div>
+            has {anecdote.votes}
+            <button onClick={() => vote(anecdote)}>vote</button>
+          </div>
+        </div>
       )}
     </div>
   )

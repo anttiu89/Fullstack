@@ -25,19 +25,13 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case 'CREATE':
+      //console.log('Here create', ...state)
       return [...state, action.data]
     case 'VOTE':
-      const id = action.data.id
+      const id = action.data
       console.log('Here1', id)
-      const anecdoteToChange = state.find(a => a.id === id)
-      console.log('Here2', anecdoteToChange)
-      const changedAnecdote = { 
-        ...anecdoteToChange
-      }
-      ++changedAnecdote.votes
-      console.log('Here3', changedAnecdote)
       return state.map(anecdote =>
-        anecdote.id !== id ? anecdote : changedAnecdote 
+        anecdote.id !== id ? anecdote : { ...anecdote, votes: anecdote.votes + 1 }
       )
     default: return state
   }
@@ -59,7 +53,7 @@ export const voteIncreaser = (id) => {
   console.log('voteIncreaser', id)
   return {
     type: 'VOTE',
-    data: { id }
+    data: id 
   }
 }
 

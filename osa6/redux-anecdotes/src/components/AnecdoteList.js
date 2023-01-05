@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { voteIncreaser } from '../reducers/anecdoteReducer'
 
 const sortByVotesDescending = (a, b) => {
+  // console.log("Anecdote a :", a)
+  // console.log("Anecdote b :", b)
   if (a.votes > b.votes){
     return -1
   }
@@ -12,29 +14,31 @@ const sortByVotesDescending = (a, b) => {
 }
 
 const Anecdotes = () => {
-  const fullState = useSelector(state => state)
-  console.log("State_a", fullState)
-  const anecdotes = fullState.anecdotes
-  console.log("anec: ", anecdotes)
-  anecdotes.sort((a, b) => b.votes - a.votes)
-  console.log("anec sort: ", anecdotes)
-
   const dispatch = useDispatch()
-  const vote = (anecdote) => {
-    console.log("Anecdote", anecdote)
-    dispatch(voteIncreaser(anecdote.id))
+  const unsortedAnecdotes = useSelector(( {anecdotes} ) => {
+    return anecdotes;
+  })
+  console.log("unsortedAnecdotes: ", unsortedAnecdotes)
+  // let sortedAnecdotes = [...unsortedAnecdotes].sort(sortByVotesDescending)
+  let sortedAnecdotes = unsortedAnecdotes
+  console.log("sortedAnecdotes: ", sortedAnecdotes)
+
+  const vote = (anecdoteObject) => {
+    console.log("Anecdote vote", anecdoteObject)
+    dispatch({ type: 'anecdotes/voteIncreaser', payload: anecdoteObject.id })
+    //dispatch(voteIncreaser(anecdoteObject.id))
   }
 
   return(
     <div>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
+      {sortedAnecdotes.map(anecdoteObject =>
+        <div key={anecdoteObject.id}>
           <div>
-            {anecdote.content}
+            {anecdoteObject.content}
           </div>
           <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote)}>vote</button>
+            has {anecdoteObject.votes}
+            <button onClick={() => vote(anecdoteObject)}>vote</button>
           </div>
         </div>
       )}

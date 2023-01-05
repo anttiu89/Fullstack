@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { voteIncreaser } from '../reducers/anecdoteReducer'
+import { createNotification } from '../reducers/notificationReducer'
+import { deleteNotification } from '../reducers/notificationReducer'
 
 const sortByVotesDescending = (a, b) => {
   // console.log("Anecdote a :", a)
@@ -19,14 +21,26 @@ const Anecdotes = () => {
     return anecdotes;
   })
   console.log("unsortedAnecdotes: ", unsortedAnecdotes)
-  // let sortedAnecdotes = [...unsortedAnecdotes].sort(sortByVotesDescending)
-  let sortedAnecdotes = unsortedAnecdotes
+  const filter = useSelector(( {filter} ) => {
+    return filter;
+  })
+  console.log("filter: ", filter)
+  const filteredAnecdotes = unsortedAnecdotes.filter((anecdote) => {
+    return filter.filter.length === 0 || filter.filter === null || anecdote.content.includes(filter.filter)
+  })
+  console.log("filteredAnecdotes: ", filteredAnecdotes)
+  let sortedAnecdotes = [...filteredAnecdotes].sort(sortByVotesDescending)
+  //let sortedAnecdotes = unsortedAnecdotes
   console.log("sortedAnecdotes: ", sortedAnecdotes)
 
   const vote = (anecdoteObject) => {
     console.log("Anecdote vote", anecdoteObject)
-    dispatch({ type: 'anecdotes/voteIncreaser', payload: anecdoteObject.id })
-    //dispatch(voteIncreaser(anecdoteObject.id))
+    //dispatch({ type: 'anecdotes/voteIncreaser', payload: anecdoteObject.id })
+    dispatch(voteIncreaser(anecdoteObject.id))
+    dispatch(createNotification(`you voted '${anecdoteObject.content}'`))
+    setTimeout(() => {
+      dispatch(deleteNotification())
+    }, 5000)
   }
 
   return(

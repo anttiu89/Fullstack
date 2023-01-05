@@ -17,10 +17,11 @@ const Anecdotes = () => {
   const anecdotes = fullState.anecdotes
   console.log("anec: ", anecdotes)
   anecdotes.sort((a, b) => b.votes - a.votes)
+  console.log("anec sort: ", anecdotes)
 
   const dispatch = useDispatch()
   const vote = (anecdote) => {
-    console.log("Anecdote", fullState)
+    console.log("Anecdote", anecdote)
     dispatch(voteIncreaser(anecdote.id))
   }
 

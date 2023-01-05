@@ -28,6 +28,7 @@ const reducer = (state = initialState, action) => {
       //console.log('Here create', ...state)
       return [...state, action.data]
     case 'VOTE':
+      console.log('Here0')
       const id = action.data
       console.log('Here1', id)
       return state.map(anecdote =>

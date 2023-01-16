@@ -4,8 +4,6 @@ import { createNotification } from '../reducers/notificationReducer'
 import { deleteNotification } from '../reducers/notificationReducer'
 
 const sortByVotesDescending = (a, b) => {
-  // console.log("Anecdote a :", a)
-  // console.log("Anecdote b :", b)
   if (a.votes > b.votes){
     return -1
   }
@@ -30,12 +28,10 @@ const Anecdotes = () => {
   })
   console.log("filteredAnecdotes: ", filteredAnecdotes)
   let sortedAnecdotes = [...filteredAnecdotes].sort(sortByVotesDescending)
-  //let sortedAnecdotes = unsortedAnecdotes
   console.log("sortedAnecdotes: ", sortedAnecdotes)
 
   const vote = (anecdoteObject) => {
     console.log("Anecdote vote", anecdoteObject)
-    //dispatch({ type: 'anecdotes/voteIncreaser', payload: anecdoteObject.id })
     dispatch(voteIncreaser(anecdoteObject.id))
     dispatch(createNotification(`you voted '${anecdoteObject.content}'`))
     setTimeout(() => {

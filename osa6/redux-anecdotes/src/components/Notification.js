@@ -1,10 +1,11 @@
-import { useSelector } from 'react-redux'
+/* eslint-disable react/react-in-jsx-scope */
+import { useSelector } from "react-redux"
 
 const Notification = () => {
   const notification = useSelector(state => state.notification.notification)
   console.log("Notification", notification)
   const style = {
-    border: 'solid',
+    border: "solid",
     padding: 10,
     borderWidth: 1
   }

@@ -1,33 +1,26 @@
-import { useDispatch } from 'react-redux'
-import { createAnecdote } from '../reducers/anecdoteReducer'
-import { createNotification } from '../reducers/notificationReducer'
-import { deleteNotification } from '../reducers/notificationReducer'
-import anecdoteService from "../services/anecdotes"
+/* eslint-disable react/react-in-jsx-scope */
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+import { useDispatch } from "react-redux"
+import { createAnecdote } from "../reducers/anecdoteReducer"
+import { setNotification } from "../reducers/notificationReducer"
 
-const AnecdoteForm = (props) => {
+const AnecdoteForm = () => {
   const dispatch = useDispatch()
 
   const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    console.log('addAnecdote', content)
-    event.target.anecdote.value = ''
-    const newAnecdoteObject = { content: content, id: getId(), votes: 0 }
-    const data = await anecdoteService.create(newAnecdoteObject)
-    dispatch(createAnecdote(data))
-    dispatch(createNotification(`New anecdote '${content}'`))
-    setTimeout(() => {
-      dispatch(deleteNotification())
-    }, 5000)
+    console.log("addAnecdote", content)
+    event.target.anecdote.value = ""
+    dispatch(createAnecdote(content))
+    dispatch(setNotification(`New anecdote '${content}'`, 5))
   }
 
   return (
     <div>
       <h2>create new</h2>
       <form onSubmit={addAnecdote}>
-        <div><input name='anecdote' /></div>
+        <div><input name="anecdote" /></div>
         <button>create</button>
       </form>
     </div>

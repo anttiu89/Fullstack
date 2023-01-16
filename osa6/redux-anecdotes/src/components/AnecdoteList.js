@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { voteIncreaser } from '../reducers/anecdoteReducer'
-import { createNotification } from '../reducers/notificationReducer'
-import { deleteNotification } from '../reducers/notificationReducer'
+/* eslint-disable react/react-in-jsx-scope */
+import { useDispatch, useSelector } from "react-redux"
+import { voteAnecdote } from "../reducers/anecdoteReducer"
+import { setNotification } from "../reducers/notificationReducer"
 
 const sortByVotesDescending = (a, b) => {
   if (a.votes > b.votes){
@@ -16,11 +16,11 @@ const sortByVotesDescending = (a, b) => {
 const Anecdotes = () => {
   const dispatch = useDispatch()
   const unsortedAnecdotes = useSelector(( {anecdotes} ) => {
-    return anecdotes;
+    return anecdotes
   })
   console.log("unsortedAnecdotes: ", unsortedAnecdotes)
   const filter = useSelector(( {filter} ) => {
-    return filter;
+    return filter
   })
   console.log("filter: ", filter)
   const filteredAnecdotes = unsortedAnecdotes.filter((anecdote) => {
@@ -32,11 +32,8 @@ const Anecdotes = () => {
 
   const vote = (anecdoteObject) => {
     console.log("Anecdote vote", anecdoteObject)
-    dispatch(voteIncreaser(anecdoteObject.id))
-    dispatch(createNotification(`you voted '${anecdoteObject.content}'`))
-    setTimeout(() => {
-      dispatch(deleteNotification())
-    }, 5000)
+    dispatch(voteAnecdote(anecdoteObject))
+    dispatch(setNotification(`you voted '${anecdoteObject.content}'`, 5))
   }
 
   return(
